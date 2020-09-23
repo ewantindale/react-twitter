@@ -35,10 +35,11 @@ export default function Profile() {
   const uploadImage = async (base64EncodedImage: string) => {
     console.log(base64EncodedImage);
     try {
-      await axios(`/api/upload`, {
+      await axios(`${process.env.REACT_APP_API_URL}/api/upload`, {
         method: "post",
         data: JSON.stringify({ data: base64EncodedImage }),
         headers: { "Content-Type": "application/json" },
+        withCredentials: true,
       });
     } catch (error) {
       console.error(error);

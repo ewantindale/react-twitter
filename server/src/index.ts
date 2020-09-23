@@ -31,7 +31,9 @@ const main = async () => {
   const RedisStore = connectRedis(session);
   const redis = new Redis(process.env.REDIS_URL);
 
-  app.set("trust proxy", 1);
+  if (process.env.NODE_ENV === "production") {
+    app.set("trust proxy", 1);
+  }
   app.use(cors({ origin: process.env.CORS_ORIGIN, credentials: true }));
 
   app.use(
@@ -52,7 +54,7 @@ const main = async () => {
 
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET,
-      resave: false,
+      resave: true,
     })
   );
 

@@ -14,21 +14,25 @@ interface Props {
 }
 
 export const Post = ({ post }: Props) => {
-  const { data: userData } = useSWR(`/api/users/info`, fetcher);
+  const { data: userData } = useSWR(
+    `${process.env.REACT_APP_API_URL}/api/users/info`,
+    fetcher
+  );
 
   const deletePost = async () => {
     const responseData = await axios({
-      url: `/api/posts/${post.id}/`,
+      url: `${process.env.REACT_APP_API_URL}/api/posts/${post.id}/`,
       method: "delete",
+      withCredentials: true,
     });
     console.log(responseData);
 
-    mutate(`/api/posts`);
+    mutate(`${process.env.REACT_APP_API_URL}/api/posts`);
   };
 
   const likePost = async () => {
     mutate(
-      `/api/posts`,
+      `${process.env.REACT_APP_API_URL}/api/posts`,
       async (data: [PostType]) =>
         data.map((p: PostType) =>
           p.id === post.id
@@ -48,11 +52,12 @@ export const Post = ({ post }: Props) => {
     );
 
     await axios({
-      url: `/api/likes/${post.id}`,
+      url: `${process.env.REACT_APP_API_URL}/api/likes/${post.id}`,
       method: post.likeStatus ? "delete" : "post",
+      withCredentials: true,
     });
 
-    mutate(`/api/posts`);
+    mutate(`${process.env.REACT_APP_API_URL}/api/posts`);
   };
 
   return (

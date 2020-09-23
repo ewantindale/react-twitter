@@ -10,7 +10,10 @@ import { Post as PostType } from "../types";
 
 export const Feed = () => {
   useIsAuthenticated(); // user is redirected if they are not logged in
-  const { data, error } = useSWR(`/api/posts`, fetcher);
+  const { data, error } = useSWR(
+    `${process.env.REACT_APP_API_URL}/api/posts`,
+    fetcher
+  );
 
   const [postBody, setPostBody] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +26,7 @@ export const Feed = () => {
     setPostBody("");
 
     await axios({
-      url: `/api/posts`,
+      url: `${process.env.REACT_APP_API_URL}/api/posts`,
       method: "post",
       data: {
         body: postBody,
@@ -31,11 +34,12 @@ export const Feed = () => {
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     });
 
     setIsLoading(false);
 
-    mutate(`/api/posts`);
+    mutate(`${process.env.REACT_APP_API_URL}/api/posts`);
   };
 
   const handlePostBodyChange = (e: React.ChangeEvent<HTMLInputElement>) => {

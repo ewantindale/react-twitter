@@ -47,7 +47,7 @@ export const Register = () => {
 
     try {
       await axios({
-        url: `/api/users/register`,
+        url: `${process.env.REACT_APP_API_URL}/api/users/register`,
         method: "post",
         data: {
           username,
@@ -57,9 +57,10 @@ export const Register = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        withCredentials: true,
       });
 
-      mutate(`/api/users/info`);
+      mutate(`${process.env.REACT_APP_API_URL}/api/users/info`);
       history.push("/");
     } catch (err) {
       dispatch({ type: "error", message: err.response.data.error });

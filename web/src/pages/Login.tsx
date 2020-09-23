@@ -45,8 +45,8 @@ export const Login = () => {
     e.preventDefault();
 
     try {
-      await axios({
-        url: `/api/users/login`,
+      const response = await axios({
+        url: `${process.env.REACT_APP_API_URL}/api/users/login`,
         method: "post",
         data: {
           username,
@@ -55,9 +55,12 @@ export const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        withCredentials: true,
       });
 
-      mutate(`/api/users/info`);
+      console.log(response);
+
+      mutate(`${process.env.REACT_APP_API_URL}/api/users/info`);
       history.replace("/");
     } catch (err) {
       dispatch({ type: "error", message: err.response.data.error });

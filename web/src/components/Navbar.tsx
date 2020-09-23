@@ -7,14 +7,18 @@ import { Box, Button, Flex, Text } from "@chakra-ui/core";
 
 export default function Navbar() {
   const history = useHistory();
-  const { data } = useSWR(`/api/users/info`, fetcher);
+  const { data } = useSWR(
+    `${process.env.REACT_APP_API_URL}/api/users/info`,
+    fetcher
+  );
 
   const logout = async () => {
     await axios({
-      url: `/api/users/logout`,
+      url: `${process.env.REACT_APP_API_URL}/api/users/logout`,
       method: "post",
+      withCredentials: true,
     });
-    mutate(`/api/users/info`);
+    mutate(`${process.env.REACT_APP_API_URL}/api/users/info`);
   };
 
   const handleLoginClicked = () => {

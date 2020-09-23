@@ -4,7 +4,10 @@ import useSWR from "swr";
 import { fetcher } from "./fetcher";
 
 export const useIsAuthenticated = () => {
-  const { data } = useSWR(`/api/users/info`, fetcher);
+  const { data } = useSWR(
+    `${process.env.REACT_APP_API_URL}/api/users/info`,
+    fetcher
+  );
   const history = useHistory();
 
   useEffect(() => {
