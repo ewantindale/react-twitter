@@ -1,16 +1,19 @@
-import { Box, Button, Flex, Input, Spinner, Text } from "@chakra-ui/core";
+import { Box, Button, Flex, Input, Text } from "@chakra-ui/core";
 import axios from "axios";
 import React, { useState } from "react";
 import { mutate } from "swr";
-import { Post } from "../components/Post";
+import { Page } from "../components/Page";
 import Wrapper from "../components/Wrapper";
-import { Post as PostType } from "../types";
 import { useIsAuthenticated } from "../utils/useIsAuthenticated";
-import { usePosts } from "../utils/usePosts";
 
 export const Feed = () => {
   useIsAuthenticated(); // user is redirected if they are not logged in
-  const { posts, error } = usePosts();
+  const [count, setCount] = useState(1);
+
+  const pages = [];
+  for (let i = 0; i < count; i++) {
+    pages.push(<Page index={i} key={i} />);
+  }
 
   const [postBody, setPostBody] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +39,7 @@ export const Feed = () => {
 
     setIsLoading(false);
 
-    mutate(`${process.env.REACT_APP_API_URL}/api/posts`);
+    mutate(`${process.env.REACT_APP_API_URL}/api/posts/page=0`);
   };
 
   const handlePostBodyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,18 +67,20 @@ export const Feed = () => {
         </Flex>
       </form>
 
-      <Text fontSize={25} fontWeight="bold" mt={4}>
+      <Text fontSize={25} fontWeight="bold" mt={4} ml={2}>
         Tweets
       </Text>
-      <Box borderTop="1px solid lightgrey">
-        {posts ? (
-          posts.map((post: PostType) => <Post key={post.id} post={post} />)
-        ) : error ? (
-          <Text color="red">Error loading posts: {error}</Text>
-        ) : (
-          <Spinner />
-        )}
-      </Box>
+      <Box borderTop="1px solid lightgrey">{pages}</Box>
+      <Flex>
+        <Button
+          onClick={() => setCount((count) => count + 1)}
+          variantColor="blue"
+          mt={4}
+          mx="auto"
+        >
+          Load More
+        </Button>
+      </Flex>
     </Wrapper>
   );
 };

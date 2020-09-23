@@ -3,10 +3,16 @@ import { Post } from "../../entities/Post";
 
 export const postRouter = Router();
 
-postRouter.get("/", async (req, res) => {
+postRouter.get("/page=:page", async (req, res) => {
+  const page = parseInt(req.params.page);
+
+  const resultsPerPage = 5;
+
   const posts = await Post.find({
     relations: ["author", "likes"],
     order: { createdAt: "DESC" },
+    skip: page * resultsPerPage,
+    take: resultsPerPage,
   });
 
   // This might be very inefficient?

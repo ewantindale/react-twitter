@@ -11,9 +11,10 @@ import { useCurrentUser } from "../utils/useCurrentUser";
 
 interface Props {
   post: PostType;
+  pageIndex: number;
 }
 
-export const Post = ({ post }: Props) => {
+export const Post = ({ post, pageIndex }: Props) => {
   const { user } = useCurrentUser();
 
   const deletePost = async () => {
@@ -23,12 +24,14 @@ export const Post = ({ post }: Props) => {
       withCredentials: true,
     });
 
-    await mutate(`${process.env.REACT_APP_API_URL}/api/posts`);
+    await mutate(
+      `${process.env.REACT_APP_API_URL}/api/posts/page=${pageIndex}`
+    );
   };
 
   const likePost = async () => {
     await mutate(
-      `${process.env.REACT_APP_API_URL}/api/posts`,
+      `${process.env.REACT_APP_API_URL}/api/posts/page=${pageIndex}`,
       async (data: [PostType]) =>
         data.map((p: PostType) =>
           p.id === post.id
@@ -53,7 +56,9 @@ export const Post = ({ post }: Props) => {
       withCredentials: true,
     });
 
-    await mutate(`${process.env.REACT_APP_API_URL}/api/posts`);
+    await mutate(
+      `${process.env.REACT_APP_API_URL}/api/posts/page=${pageIndex}`
+    );
   };
 
   return (
