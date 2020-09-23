@@ -24,7 +24,7 @@ export default function Profile() {
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
-      if (file.size > 100000) {
+      if (file.size > 1000000) {
         setError("This file is too large");
         return;
       }
@@ -74,7 +74,7 @@ export default function Profile() {
         <Text fontSize={25} fontWeight="bold" mb={4}>
           Upload a profile picture
         </Text>
-        <Text>Profile pictures must be a JPEG under 10MB in size.</Text>
+        <Text>Profile pictures must be a JPEG under 1MB in size.</Text>
         <form onSubmit={handleSubmitFile}>
           <Input
             type="file"
