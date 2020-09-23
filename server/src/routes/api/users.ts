@@ -41,6 +41,8 @@ userRouter.post("/register", async (req, res) => {
         });
       }
     }
+
+    throw err;
   }
 
   req.session.userId = user.id;
@@ -68,8 +70,6 @@ userRouter.post("/login", async (req, res) => {
 
   req.session.userId = user.id;
 
-  console.log(req.session);
-
   return res.json(user);
 });
 
@@ -82,7 +82,6 @@ userRouter.post("/logout", async (req, res) => {
 });
 
 userRouter.get("/info", async (req, res) => {
-  console.log("session: ", req.session);
   if (!req.session.userId) {
     return res.json(null);
   }
