@@ -20,7 +20,7 @@ const main = async () => {
     url: process.env.DATABASE_URL,
     entities: [User, Post, Like],
     migrations: [path.join(__dirname, "./migrations/*")],
-    // synchronize: process.env.NODE_ENV !== "production",
+    synchronize: process.env.NODE_ENV !== "production",
     logging: process.env.NODE_ENV !== "production",
   });
 
