@@ -1,8 +1,0 @@
-{
-  "type": "postgres",
-
-  "url": "postgres://xalffljl:S3fJb8ftCk0xaYD6K_gWlipEX7AzRaju@kandula.db.elephantsql.com:5432/xalffljl",
-  "database": "xalffljl",
-  "entities": ["dist/entities/*.js"],
-  "migrations": ["dist/migrations/*.js"]
-}
