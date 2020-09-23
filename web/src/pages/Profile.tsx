@@ -8,7 +8,7 @@ import axios from "axios";
 export default function Profile() {
   useIsAuthenticated();
 
-  const [fileInputState, setFileInputState] = useState("");
+  const [fileInputState] = useState("");
   const [previewSource, setPreviewSource] = useState("");
 
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
