@@ -1,16 +1,13 @@
 import axios from "axios";
 import React from "react";
-import useSWR, { mutate } from "swr";
-import { fetcher } from "../utils/fetcher";
+import { mutate } from "swr";
 import { Link, useHistory } from "react-router-dom";
 import { Box, Button, Flex, Text } from "@chakra-ui/core";
+import { useCurrentUser } from "../utils/useCurrentUser";
 
 export default function Navbar() {
   const history = useHistory();
-  const { data } = useSWR(
-    `${process.env.REACT_APP_API_URL}/api/users/info`,
-    fetcher
-  );
+  const { user } = useCurrentUser();
 
   const handleLogoutClicked = async () => {
     await axios({
@@ -49,7 +46,7 @@ export default function Navbar() {
           </Text>
         </Link>
 
-        {data && data.username ? (
+        {user && user.username ? (
           <Flex align="center">
             <Button onClick={handleProfileClicked}>Profile</Button>
             <Button onClick={handleLogoutClicked} ml={2}>

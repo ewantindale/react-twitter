@@ -83,7 +83,7 @@ userRouter.post("/logout", async (req, res) => {
 
 userRouter.get("/info", async (req, res) => {
   if (!req.session.userId) {
-    return res.json(null);
+    return res.status(401).json({ error: "Unauthorized" });
   }
 
   const user = await User.findOne(req.session.userId);

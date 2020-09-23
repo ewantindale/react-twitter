@@ -1,19 +1,16 @@
 import { Box, Button, Flex, Input, Spinner, Text } from "@chakra-ui/core";
 import axios from "axios";
 import React, { useState } from "react";
-import useSWR, { mutate } from "swr";
-import Wrapper from "../components/Wrapper";
-import { fetcher } from "../utils/fetcher";
-import { useIsAuthenticated } from "../utils/useIsAuthenticated";
+import { mutate } from "swr";
 import { Post } from "../components/Post";
+import Wrapper from "../components/Wrapper";
 import { Post as PostType } from "../types";
+import { useIsAuthenticated } from "../utils/useIsAuthenticated";
+import { usePosts } from "../utils/usePosts";
 
 export const Feed = () => {
   useIsAuthenticated(); // user is redirected if they are not logged in
-  const { data, error } = useSWR(
-    `${process.env.REACT_APP_API_URL}/api/posts`,
-    fetcher
-  );
+  const { posts, error } = usePosts();
 
   const [postBody, setPostBody] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -71,10 +68,10 @@ export const Feed = () => {
         Tweets
       </Text>
       <Box borderTop="1px solid lightgrey">
-        {data ? (
-          data.map((post: PostType) => <Post key={post.id} post={post} />)
+        {posts ? (
+          posts.map((post: PostType) => <Post key={post.id} post={post} />)
         ) : error ? (
-          <Text color="red">Error loading posts</Text>
+          <Text color="red">Error loading posts: {error}</Text>
         ) : (
           <Spinner />
         )}

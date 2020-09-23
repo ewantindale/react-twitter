@@ -15,6 +15,7 @@ import axios from "axios";
 
 export default function Profile() {
   useIsAuthenticated();
+
   const [previewSource, setPreviewSource] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);

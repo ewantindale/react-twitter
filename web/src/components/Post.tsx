@@ -5,33 +5,29 @@ import { format } from "date-fns";
 import React from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa";
-import useSWR, { mutate } from "swr";
+import { mutate } from "swr";
 import { Post as PostType } from "../types";
-import { fetcher } from "../utils/fetcher";
+import { useCurrentUser } from "../utils/useCurrentUser";
 
 interface Props {
   post: PostType;
 }
 
 export const Post = ({ post }: Props) => {
-  const { data: userData } = useSWR(
-    `${process.env.REACT_APP_API_URL}/api/users/info`,
-    fetcher
-  );
+  const { user } = useCurrentUser();
 
   const deletePost = async () => {
-    const responseData = await axios({
+    await axios({
       url: `${process.env.REACT_APP_API_URL}/api/posts/${post.id}/`,
       method: "delete",
       withCredentials: true,
     });
-    console.log(responseData);
 
-    mutate(`${process.env.REACT_APP_API_URL}/api/posts`);
+    await mutate(`${process.env.REACT_APP_API_URL}/api/posts`);
   };
 
   const likePost = async () => {
-    mutate(
+    await mutate(
       `${process.env.REACT_APP_API_URL}/api/posts`,
       async (data: [PostType]) =>
         data.map((p: PostType) =>
@@ -41,9 +37,9 @@ export const Post = ({ post }: Props) => {
                 likes: post.likeStatus
                   ? post.likes.filter(
                       (l: { userId: number; postId: number }) =>
-                        l.userId !== userData.id
+                        l.userId !== user.id
                     )
-                  : [...post.likes, { postId: post.id, userId: userData.id }],
+                  : [...post.likes, { postId: post.id, userId: user.id }],
                 likeStatus: !post.likeStatus,
               }
             : { ...p }
@@ -57,7 +53,7 @@ export const Post = ({ post }: Props) => {
       withCredentials: true,
     });
 
-    mutate(`${process.env.REACT_APP_API_URL}/api/posts`);
+    await mutate(`${process.env.REACT_APP_API_URL}/api/posts`);
   };
 
   return (
@@ -104,7 +100,7 @@ export const Post = ({ post }: Props) => {
             </Text>
           </Flex>
 
-          {userData && post.author.id === userData.id ? (
+          {user && post.author.id === user.id ? (
             <Box as={FaTrash} fontSize={15} onClick={deletePost} />
           ) : null}
         </Flex>
