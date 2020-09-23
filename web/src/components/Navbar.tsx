@@ -12,7 +12,7 @@ export default function Navbar() {
     fetcher
   );
 
-  const logout = async () => {
+  const handleLogoutClicked = async () => {
     await axios({
       url: `${process.env.REACT_APP_API_URL}/api/users/logout`,
       method: "post",
@@ -27,6 +27,10 @@ export default function Navbar() {
 
   const handleRegisterClicked = () => {
     history.push("/register");
+  };
+
+  const handleProfileClicked = () => {
+    history.push("/profile");
   };
 
   return (
@@ -47,10 +51,8 @@ export default function Navbar() {
 
         {data && data.username ? (
           <Flex align="center">
-            <Text color="white">
-              you are logged in as <Link to="/profile">{data.username}</Link>
-            </Text>
-            <Button onClick={logout} ml={2}>
+            <Button onClick={handleProfileClicked}>Profile</Button>
+            <Button onClick={handleLogoutClicked} ml={2}>
               Log Out
             </Button>
           </Flex>
