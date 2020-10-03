@@ -30,6 +30,7 @@ export const Post = ({ post, pageIndex }: Props) => {
   };
 
   const likePost = async () => {
+    if (!user) return;
     await mutate(
       `${process.env.REACT_APP_API_URL}/api/posts/page=${pageIndex}`,
       async (data: [PostType]) =>
