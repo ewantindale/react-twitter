@@ -15,7 +15,7 @@ export default function Navbar() {
       method: "post",
       withCredentials: true,
     });
-    mutate(`${process.env.REACT_APP_API_URL}/api/users/info`);
+    mutate(`${process.env.REACT_APP_API_URL}/api/users/info`, null);
   };
 
   const handleLoginClicked = () => {
@@ -46,7 +46,7 @@ export default function Navbar() {
           </Text>
         </Link>
 
-        {user && user.username ? (
+        {user ? (
           <Flex align="center">
             <Button onClick={handleProfileClicked}>Profile</Button>
             <Button onClick={handleLogoutClicked} ml={2}>
