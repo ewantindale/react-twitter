@@ -5,10 +5,8 @@ import { mutate } from "swr";
 import { Page } from "../components/Page";
 import Wrapper from "../components/Wrapper";
 import { useCurrentUser } from "../utils/useCurrentUser";
-import { useIsAuthenticated } from "../utils/useIsAuthenticated";
 
 export const Feed = () => {
-  // useIsAuthenticated(); // user is redirected if they are not logged in
   const { user } = useCurrentUser();
   const [count, setCount] = useState(1);
 
