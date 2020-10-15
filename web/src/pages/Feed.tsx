@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Input, Text } from "@chakra-ui/core";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { mutate } from "swr";
 import { Page } from "../components/Page";
 import Wrapper from "../components/Wrapper";
@@ -9,6 +9,31 @@ import { useCurrentUser } from "../utils/useCurrentUser";
 export const Feed = () => {
   const { user } = useCurrentUser();
   const [count, setCount] = useState(1);
+
+  const paginationTrigger = useRef();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isVisible(paginationTrigger.current)) {
+        setCount((count) => count + 1);
+        console.log(count);
+      }
+    };
+
+    document.addEventListener("scroll", handleScroll);
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    };
+  }, [count]);
+
+  function isVisible(element: any) {
+    var rect = element.getBoundingClientRect();
+    var viewHeight = Math.max(
+      document.documentElement.clientHeight,
+      window.innerHeight
+    );
+    return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
+  }
 
   const pages = [];
   for (let i = 0; i < count; i++) {
@@ -78,16 +103,8 @@ export const Feed = () => {
         Tweets
       </Text>
       <Box borderTop="1px solid lightgrey">{pages}</Box>
-      <Flex>
-        <Button
-          onClick={() => setCount((count) => count + 1)}
-          variantColor="blue"
-          mt={4}
-          mx="auto"
-        >
-          Load More
-        </Button>
-      </Flex>
+
+      <Box ref={paginationTrigger} />
     </Wrapper>
   );
 };
