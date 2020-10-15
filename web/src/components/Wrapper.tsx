@@ -7,7 +7,7 @@ interface Props {
 
 export default function Wrapper({ children }: Props) {
   return (
-    <Box maxW="1200px" mx="auto" mt={4} p={[0, 0, 4, 4]}>
+    <Box maxW="1200px" mx="auto" mt="100px" p={[0, 0, 4, 4]}>
       {children}
     </Box>
   );

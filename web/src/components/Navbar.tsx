@@ -31,7 +31,7 @@ export default function Navbar() {
   };
 
   return (
-    <Box bg="#0053a6">
+    <Box bg="#0053a6" position="fixed" top={0} width="100%" zIndex={1}>
       <Flex
         maxW="1200px"
         mx="auto"
