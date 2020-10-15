@@ -16,7 +16,6 @@ export const Feed = () => {
     const handleScroll = () => {
       if (isVisible(paginationTrigger.current)) {
         setCount((count) => count + 1);
-        console.log(count);
       }
     };
 
@@ -32,7 +31,7 @@ export const Feed = () => {
       document.documentElement.clientHeight,
       window.innerHeight
     );
-    return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
+    return !(rect.bottom < 5 || rect.top - viewHeight >= 5);
   }
 
   const pages = [];
