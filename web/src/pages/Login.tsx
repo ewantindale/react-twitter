@@ -2,7 +2,15 @@ import React, { useReducer } from "react";
 import axios from "axios";
 import { mutate } from "swr";
 import { useHistory } from "react-router";
-import { Box, Text, Input, Button, AlertIcon, Alert } from "@chakra-ui/core";
+import {
+  Box,
+  Text,
+  Input,
+  Button,
+  AlertIcon,
+  Alert,
+  Flex,
+} from "@chakra-ui/core";
 
 const initialState = {
   username: "",
@@ -74,45 +82,53 @@ export const Login = () => {
   };
 
   return (
-    <Box maxW="500px" mx="auto" mt={4} bg="#0053a6" p={4} borderRadius={4}>
-      <Text color="white" fontSize={25}>
-        Log in
-      </Text>
-      <form onSubmit={login}>
-        <Input
-          placeholder="username"
-          margin="normal"
-          name="username"
-          autoFocus
-          value={username}
-          onChange={handleFieldChanged}
-          mt={4}
-        />
-        <Input
-          placeholder="password"
-          margin="normal"
-          name="password"
-          type="password"
-          value={password}
-          onChange={handleFieldChanged}
-          mt={4}
-        />
-        <Button
-          type="submit"
-          color="primary"
-          isLoading={isLoading}
-          mt={4}
-          w="100%"
-        >
-          Log In
-        </Button>
-        {error ? (
-          <Alert status="error" mt={4}>
-            <AlertIcon />
-            {error}
-          </Alert>
-        ) : null}
-      </form>
-    </Box>
+    <Flex
+      bg="#0053a6"
+      height="100vh"
+      direction="column"
+      align="center"
+      justify="center"
+    >
+      <Box width="100%" maxWidth="500px" p={4} borderRadius={4}>
+        <Text color="white" fontSize={25}>
+          Log in
+        </Text>
+        <form onSubmit={login}>
+          <Input
+            placeholder="username"
+            margin="normal"
+            name="username"
+            autoFocus
+            value={username}
+            onChange={handleFieldChanged}
+            mt={4}
+          />
+          <Input
+            placeholder="password"
+            margin="normal"
+            name="password"
+            type="password"
+            value={password}
+            onChange={handleFieldChanged}
+            mt={4}
+          />
+          <Button
+            type="submit"
+            color="primary"
+            isLoading={isLoading}
+            mt={4}
+            w="100%"
+          >
+            Log In
+          </Button>
+          {error ? (
+            <Alert status="error" mt={4}>
+              <AlertIcon />
+              {error}
+            </Alert>
+          ) : null}
+        </form>
+      </Box>
+    </Flex>
   );
 };
